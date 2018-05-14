@@ -1,6 +1,6 @@
 package bsplit;
-import javax.swing.*;
 
+import javax.swing.*;
 import java.awt.*;
 
 @SuppressWarnings("serial")
@@ -16,14 +16,14 @@ public class BananaGUI extends JFrame //implements ActionListener
      * by getter and setter methods.
      */
     
-    //initialize panels
+    //create panels
     private JPanel gameInfoPanel = new JPanel(); //panel that shows game name, category, and attempt information
     private JPanel segmentInfoPanel = new JPanel(); //panel that shows the segment icons, names, and times
     private JPanel timerPanel = new JPanel(); //panel that shows the running timer
     private JPanel splitInfoPanel = new JPanel(); //panel that shows info on the previous split
     private JPanel recordInfoPanel = new JPanel(); //panel that shows Personal Best and World Record info
     
-    //initialize subpanel labels
+    //create subpanel labels
     private JLabel gameName = new JLabel();
     private JLabel gameCategory = new JLabel();
     private JLabel dailyAttempt = new JLabel();
@@ -157,12 +157,35 @@ public class BananaGUI extends JFrame //implements ActionListener
     /*
      * These are the SETTER methods for changing values within sections
      */
-    public void setTimer(int hours, int minutes, int seconds, int mseconds)
+    /*
+    //set the display to the current timer value.  Input is in milliseconds
+    public void setTimer(long timer)
     {
-        String strHours = Integer.toString(hours);
-        String strMinutes = Integer.toString(minutes);
-        String strSeconds = Integer.toString(seconds);
-        String strMSeconds = Integer.toString(mseconds);
-        this.elapsedTime.setText(strHours + ":" + strMinutes +  ":" + strSeconds +  ":" + strMSeconds);
-    }
+        String milliseconds, seconds, minutes, hours, days;
+        
+        if (timer > 3599999) //at least 1 hour in milliseconds
+        {
+            
+        }
+        else if (timer > 59999) //less than 1 hour, but at least 1 minute
+        {
+            
+        }
+        else if (timer > 999) //less than 1 minute, but at least 1 second
+        {
+            milliseconds = Long.toString(timer%1000);
+            seconds = Long.toString(timer/1000);
+            
+            this.elapsedTime.setText(seconds + ":" + milliseconds);
+        }
+        
+        if (timer < 100000)
+        {
+
+            
+            this.elapsedTime.setText(seconds + ":" + milliseconds);
+        }
+
+        //this.elapsedTime.setText(strHours + ":" + strMinutes +  ":" + strSeconds +  ":" + strMSeconds);
+    }*/
 }
