@@ -178,14 +178,5 @@ public class BananaGUI extends JFrame //implements ActionListener
             
             this.elapsedTime.setText(seconds + ":" + milliseconds);
         }
-        
-        if (timer < 100000)
-        {
-
-            
-            this.elapsedTime.setText(seconds + ":" + milliseconds);
-        }
-
-        //this.elapsedTime.setText(strHours + ":" + strMinutes +  ":" + strSeconds +  ":" + strMSeconds);
     }*/
 }
