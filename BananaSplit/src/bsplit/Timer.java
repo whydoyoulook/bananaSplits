@@ -29,8 +29,8 @@ public class Timer
         elapsedTime = Duration.between(timeStart, currentTime);
         
         Long milliseconds = elapsedTime.toMillis();
+        System.out.println("total ms: " +milliseconds);
         
-        System.out.println(milliseconds);
         return elapsedTime.toMillis();
     }
 }

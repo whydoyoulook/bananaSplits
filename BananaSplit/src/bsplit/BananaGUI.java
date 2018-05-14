@@ -157,26 +157,38 @@ public class BananaGUI extends JFrame //implements ActionListener
     /*
      * These are the SETTER methods for changing values within sections
      */
-    /*
+    
     //set the display to the current timer value.  Input is in milliseconds
     public void setTimer(long timer)
     {
-        String milliseconds, seconds, minutes, hours, days;
+        String milliseconds, seconds, minutes, hours;
         
         if (timer > 3599999) //at least 1 hour in milliseconds
-        {
+        {           
+            //convert time to string and format to have leading zeroes
+            milliseconds = String.format("%03d", timer%1000);
+            seconds = String.format("%02d", (timer/1000)%60);
+            minutes = String.format("%02d", ((timer/1000)/60)%60);
+            hours = Long.toString(((timer/1000)/60)/60);  //no special formatting needed
             
+            this.elapsedTime.setText(hours + ":" + minutes + ":" + seconds + ":" + milliseconds);                        
         }
         else if (timer > 59999) //less than 1 hour, but at least 1 minute
         {
+            //convert time to string and format to have leading zeroes
+            milliseconds = String.format("%03d", timer%1000);
+            seconds = String.format("%02d", (timer/1000)%60);
+            minutes = String.format("%02d", ((timer/1000)/60)%60);
             
+            this.elapsedTime.setText(minutes + ":" + seconds + ":" + milliseconds);            
         }
         else if (timer > 999) //less than 1 minute, but at least 1 second
         {
-            milliseconds = Long.toString(timer%1000);
-            seconds = Long.toString(timer/1000);
+            //convert time to string and format to have leading zeroes
+            milliseconds = String.format("%03d", timer%1000);
+            seconds = String.format("%02d", (timer/1000)%60);
             
             this.elapsedTime.setText(seconds + ":" + milliseconds);
         }
-    }*/
+    }
 }
