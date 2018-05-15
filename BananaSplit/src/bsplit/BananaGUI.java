@@ -2,9 +2,10 @@ package bsplit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;  //for actionlistener
 
 @SuppressWarnings("serial")
-public class BananaGUI extends JFrame //implements ActionListener
+public class BananaGUI extends JFrame implements ActionListener
 {
 
     //options for text box
@@ -32,6 +33,9 @@ public class BananaGUI extends JFrame //implements ActionListener
     private JLabel elapsedTime = new JLabel();
     private JLabel sumOfBest = new JLabel();
     private JLabel worldRecord = new JLabel();
+    
+    //create a timer object
+    private Timer timer = new Timer();
 
     public BananaGUI()
     {
@@ -120,6 +124,17 @@ public class BananaGUI extends JFrame //implements ActionListener
     //create subpanels for the Segment section
     private void createSegmentPanels(Container segmentInfoPanel)
     {
+        //TODO this is all test stuff..  DELETE it later.  For now - ADD ACTION LISTENER FOR BUTTON to test start and stop timer
+        JButton startTimerButton = new JButton("Start");
+        JButton stopTimerButton = new JButton("Update");
+        
+        startTimerButton.addActionListener(this);
+        stopTimerButton.addActionListener(this);
+
+        //create layout (for formatting where panels go)
+        segmentInfoPanel.setLayout(new BorderLayout());
+        segmentInfoPanel.add(startTimerButton, BorderLayout.LINE_START);
+        segmentInfoPanel.add(stopTimerButton, BorderLayout.LINE_END);     
     }
 
     //create subpanels for the Timer section
@@ -189,6 +204,20 @@ public class BananaGUI extends JFrame //implements ActionListener
             seconds = String.format("%02d", (timer/1000)%60);
             
             this.elapsedTime.setText(seconds + ":" + milliseconds);
+        }
+    }
+    
+    public void actionPerformed(ActionEvent e)
+    {
+        String actionCommand = e.getActionCommand();
+        
+        if (actionCommand.equals("Start"))
+        {
+            timer.startTimer();
+        }
+        else if (actionCommand.equals("Update"))
+        {
+            setTimer(timer.getElapsedTime());
         }
     }
 }

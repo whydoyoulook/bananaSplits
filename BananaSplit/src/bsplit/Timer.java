@@ -16,21 +16,23 @@ public class Timer
         timeStart = LocalTime.now();
     }
     
-    //end the timer
-    public void endTimer()
+    public void updateTimer()
+    {
+
+    }
+    
+    //stop the timer
+    public void stopTimer()
     {
         
     }
     
     //provide the elapsed time (remove VOID before completed)
-    public Long getElapsedTime()
+    public long getElapsedTime()
     {
         currentTime = LocalTime.now();
         elapsedTime = Duration.between(timeStart, currentTime);
         
-        Long milliseconds = elapsedTime.toMillis();
-        System.out.println("total ms: " +milliseconds);
-        
-        return elapsedTime.toMillis();
+        return elapsedTime.toMillis();  //return the total time in Milliseconds
     }
 }

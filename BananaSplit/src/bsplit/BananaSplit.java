@@ -10,23 +10,22 @@ public class BananaSplit
         //initialize the GUI
         BananaGUI splitsWindow = new BananaGUI();
         splitsWindow.setVisible(true);
-        splitsWindow.setTimer(993600109); //test call for setter method in BananaGUI class;
         
         //test code below this point
+        //Timer timer = new Timer();
+        //timer.startTimer();
         /*
-        Timer timer = new Timer();
-        timer.startTimer();
-        
         try
         {
-            Thread.sleep(88888); //minutes * seconds * ms (2 * 60 * 1000)
+            Thread.sleep(2386); //minutes * seconds * ms (2 * 60 * 1000)
         } catch (InterruptedException e)
         {
             //Auto-generated catch block
             e.printStackTrace();
         }
         
-        timer.getElapsedTime();*/
-        
+        //splitsWindow.setTimer(timer.getElapsedTime()); //test call for setter method in BananaGUI class;
+         *
+         */
     }
 }
