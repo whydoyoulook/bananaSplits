@@ -1,3 +1,7 @@
+/*
+ * THIS CLASS GRACEFULLY EXITS THE PROGRAM WHEN THE WINDOW IS CLOSED
+ */
+
 package bsplit;
 /*
  * WindowDestroyer listens for a window-close event and then exits the program 

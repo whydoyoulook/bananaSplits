@@ -12,6 +12,9 @@ public class BananaGUI extends JFrame implements ActionListener
     public static final int WIDTH = 247;  //width = height / 1.618 (golden ratio)
     public static final int HEIGHT = 400;
     
+    //options for updating the GUI
+    private int SPEED = 10; //time in milliseconds, 1000 ms = 1 second
+    
     /*
      * This section initializes all panels and subpanels that will be accessed
      * by getter and setter methods.
@@ -34,8 +37,15 @@ public class BananaGUI extends JFrame implements ActionListener
     private JLabel sumOfBest = new JLabel();
     private JLabel worldRecord = new JLabel();
     
-    //create a timer object
-    private Timer timer = new Timer();
+    //create objects to run and update the clock
+    private BananaTimer bananaTimer = new BananaTimer();
+    private Timer drawTimer = new Timer(SPEED, new ActionListener() //Java Swing Timer object to schedule redrawing the clock
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            setTimer(bananaTimer.getElapsedTime());
+        }
+    });
 
     public BananaGUI()
     {
@@ -126,15 +136,20 @@ public class BananaGUI extends JFrame implements ActionListener
     {
         //TODO this is all test stuff..  DELETE it later.  For now - ADD ACTION LISTENER FOR BUTTON to test start and stop timer
         JButton startTimerButton = new JButton("Start");
-        JButton stopTimerButton = new JButton("Update");
+        JButton updateTimerButton = new JButton("Update");
+        JButton resetTimerButton = new JButton("Reset");
         
         startTimerButton.addActionListener(this);
-        stopTimerButton.addActionListener(this);
+        updateTimerButton.addActionListener(this);
+        resetTimerButton.addActionListener(this);
 
         //create layout (for formatting where panels go)
         segmentInfoPanel.setLayout(new BorderLayout());
         segmentInfoPanel.add(startTimerButton, BorderLayout.LINE_START);
-        segmentInfoPanel.add(stopTimerButton, BorderLayout.LINE_END);     
+        segmentInfoPanel.add(updateTimerButton, BorderLayout.LINE_END);
+        segmentInfoPanel.add(resetTimerButton, BorderLayout.CENTER);
+        
+        
     }
 
     //create subpanels for the Timer section
@@ -142,7 +157,7 @@ public class BananaGUI extends JFrame implements ActionListener
     {
         //create layout (for formatting where panels go)
         timerPanel.setLayout(new BorderLayout());
-        elapsedTime.setText("0"); //initial text
+        elapsedTime.setText(Long.toString(bananaTimer.getElapsedTime())); //initial text
         timerPanel.add(elapsedTime, BorderLayout.LINE_END);
     }
 
@@ -178,7 +193,7 @@ public class BananaGUI extends JFrame implements ActionListener
     {
         String milliseconds, seconds, minutes, hours;
         
-        if (timer > 3599999) //at least 1 hour in milliseconds
+        if (timer > 3599999) //greater than 1 hour (in milliseconds)
         {           
             //convert time to string and format to have leading zeroes
             milliseconds = String.format("%03d", timer%1000);
@@ -188,7 +203,7 @@ public class BananaGUI extends JFrame implements ActionListener
             
             this.elapsedTime.setText(hours + ":" + minutes + ":" + seconds + ":" + milliseconds);                        
         }
-        else if (timer > 59999) //less than 1 hour, but at least 1 minute
+        else if (timer > 59999) //greater than 1 minute, less than 1 hour
         {
             //convert time to string and format to have leading zeroes
             milliseconds = String.format("%03d", timer%1000);
@@ -197,7 +212,7 @@ public class BananaGUI extends JFrame implements ActionListener
             
             this.elapsedTime.setText(minutes + ":" + seconds + ":" + milliseconds);            
         }
-        else if (timer > 999) //less than 1 minute, but at least 1 second
+        else if (timer > 999) //greater than 1 second, less than 1 minute
         {
             //convert time to string and format to have leading zeroes
             milliseconds = String.format("%03d", timer%1000);
@@ -205,6 +220,15 @@ public class BananaGUI extends JFrame implements ActionListener
             
             this.elapsedTime.setText(seconds + ":" + milliseconds);
         }
+        else //less than 1 second
+        {
+            //convert time to string and format to have leading zeroes
+            milliseconds = String.format("%03d", timer%1000);
+            seconds = "0";
+            
+            this.elapsedTime.setText(seconds + ":" + milliseconds);
+        }
+        
     }
     
     public void actionPerformed(ActionEvent e)
@@ -213,11 +237,17 @@ public class BananaGUI extends JFrame implements ActionListener
         
         if (actionCommand.equals("Start"))
         {
-            timer.startTimer();
+            bananaTimer.startTimer();
+            drawTimer.start();
         }
         else if (actionCommand.equals("Update"))
         {
-            setTimer(timer.getElapsedTime());
+            setTimer(bananaTimer.getElapsedTime());
+        }
+        else if(actionCommand.equals("Reset"))
+        {
+            drawTimer.stop();
+            setTimer(bananaTimer.resetTimer());
         }
     }
 }
