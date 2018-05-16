@@ -3,12 +3,10 @@
  */
 
 package bsplit;
-/*
- * WindowDestroyer listens for a window-close event and then exits the program 
- */
 
 import java.awt.event.*;
 
+//WindowDestroyer listens for a window-close event and then exits the program 
 public class WindowDestroyer extends WindowAdapter
 {
     public void windowClosing(WindowEvent e)
