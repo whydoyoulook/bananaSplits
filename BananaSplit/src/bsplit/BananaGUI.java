@@ -79,15 +79,13 @@ public class BananaGUI extends JFrame implements ActionListener
     }
 
     // create each panel and set the size
-    private void addPanel(Container panel, Color panelColor, int minPanelHeight,
-            int maxPanelHeight)
+    private void addPanel(Container panel, Color panelColor, int minPanelHeight, int maxPanelHeight)
     {
         panel.setBackground(panelColor);
         panel.setMaximumSize(new Dimension(9999, maxPanelHeight));
         panel.setMinimumSize(new Dimension(WIDTH, minPanelHeight));
         panel.setPreferredSize(new Dimension(WIDTH, minPanelHeight)); // initial size should be minimum size
-        ((JComponent) panel)
-                .setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+        ((JComponent) panel).setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
         this.add(panel);
     }
 
@@ -142,16 +140,19 @@ public class BananaGUI extends JFrame implements ActionListener
         JButton startTimerButton = new JButton("Start");
         JButton stopTimerButton = new JButton("Stop");
         JButton resetTimerButton = new JButton("Reset");
+        JButton pauseTimerButton = new JButton("Pause");
 
         startTimerButton.addActionListener(this);
         stopTimerButton.addActionListener(this);
         resetTimerButton.addActionListener(this);
+        pauseTimerButton.addActionListener(this);
 
         // create layout (for formatting where panels go)
         segmentInfoPanel.setLayout(new BorderLayout());
         segmentInfoPanel.add(startTimerButton, BorderLayout.LINE_START);
         segmentInfoPanel.add(stopTimerButton, BorderLayout.LINE_END);
         segmentInfoPanel.add(resetTimerButton, BorderLayout.CENTER);
+        segmentInfoPanel.add(pauseTimerButton, BorderLayout.SOUTH);
 
     }
 
@@ -204,25 +205,26 @@ public class BananaGUI extends JFrame implements ActionListener
             minutes = String.format("%02d", ((timer / 1000) / 60) % 60);
             hours = Long.toString(((timer / 1000) / 60) / 60); // no special formatting needed
 
-            this.elapsedTime.setText(
-                    hours + ":" + minutes + ":" + seconds + ":" + milliseconds);
-        } else if (timer > 59999) // greater than 1 minute, less than 1 hour
+            this.elapsedTime.setText(hours + ":" + minutes + ":" + seconds + ":" + milliseconds);
+        }
+        else if (timer > 59999) // greater than 1 minute, less than 1 hour
         {
             // convert time to string and format to have leading zeroes
             milliseconds = String.format("%03d", timer % 1000);
             seconds = String.format("%02d", (timer / 1000) % 60);
             minutes = String.format("%02d", ((timer / 1000) / 60) % 60);
 
-            this.elapsedTime
-                    .setText(minutes + ":" + seconds + ":" + milliseconds);
-        } else if (timer > 999) // greater than 1 second, less than 1 minute
+            this.elapsedTime.setText(minutes + ":" + seconds + ":" + milliseconds);
+        }
+        else if (timer > 999) // greater than 1 second, less than 1 minute
         {
             // convert time to string and format to have leading zeroes
             milliseconds = String.format("%03d", timer % 1000);
             seconds = String.format("%02d", (timer / 1000) % 60);
 
             this.elapsedTime.setText(seconds + ":" + milliseconds);
-        } else // less than 1 second
+        }
+        else // less than 1 second
         {
             // convert time to string and format to have leading zeroes
             milliseconds = String.format("%03d", timer % 1000);
@@ -238,12 +240,28 @@ public class BananaGUI extends JFrame implements ActionListener
 
         if (actionCommand.equals("Start"))
         {
-            bananaTimer.startTimer();
-            drawTimer.start();
-        } else if (actionCommand.equals("Stop"))
+            if(bananaTimer.getTimerStatus() == "STOPPED")
+            {
+                bananaTimer.startTimer();
+                drawTimer.start();
+            }
+            else if(bananaTimer.getTimerStatus() == "PAUSED")
+            {
+                bananaTimer.unpauseTimer();
+                drawTimer.start();
+            }
+        }
+        else if (actionCommand.equals("Stop"))
         {
             drawTimer.stop();
-        } else if (actionCommand.equals("Reset"))
+            bananaTimer.resetTimer();
+        }
+        else if (actionCommand.equals("Pause"))
+        {
+            bananaTimer.pauseTimer();
+            drawTimer.stop();
+        }
+        else if (actionCommand.equals("Reset"))
         {
             drawTimer.stop();
             setTimer(bananaTimer.resetTimer());
