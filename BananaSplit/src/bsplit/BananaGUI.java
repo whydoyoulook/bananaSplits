@@ -50,9 +50,15 @@ public class BananaGUI extends JFrame implements ActionListener
             setTimer(bananaTimer.getElapsedTime());
         }
     });
+    
+    //create object to handle game information
+    private TheGame theGame = new TheGame();
 
     public BananaGUI()
     {
+        //get the game information
+        theGame.setGameInfo("Kirby");
+        
         // setWindowInfo
         setSize(WIDTH, HEIGHT);
         addWindowListener(new WindowDestroyer()); // closes program
@@ -98,14 +104,14 @@ public class BananaGUI extends JFrame implements ActionListener
         gameInfoPanel.setLayout(new GridBagLayout());
         GridBagConstraints gameInfoConstraints = new GridBagConstraints();
 
-        gameName.setText("Kirby's Dream Land");
+        gameName.setText(theGame.getGameName());
         // gameInfoConstraints.fill = GridBagConstraints.HORIZONTAL;
         gameInfoConstraints.gridx = 0; // left subsection
         gameInfoConstraints.gridy = 0; // top subsection
         gameInfoConstraints.gridwidth = 3; // use all three columns
         gameInfoPanel.add(gameName, gameInfoConstraints);
 
-        gameCategory.setText("any%");
+        gameCategory.setText(theGame.getGameCategory());
         gameInfoConstraints.gridx = 0; // left subsection
         gameInfoConstraints.gridy = 1; // set below game name
         gameInfoConstraints.gridwidth = 3; // use all three columns
